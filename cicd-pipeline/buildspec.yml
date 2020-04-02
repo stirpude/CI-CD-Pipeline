@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - $(aws ecr get-login --no-include-email --region us-east-1)
+  build:
+    commands:
+      - docker build -t node-app:latest .
+      - docker tag node-app:latest 391122274211.dkr.ecr.us-east-1.amazonaws.com/node-app:latest
+  post_build:
+    commands:
+      - docker push 391122274211.dkr.ecr.us-east-1.amazonaws.com/node-app:latest
+      - printf '[{"name":helloWorld,"imageUri":"%s"}]'
+       391122274211.dkr.ecr.us-east-1.amazonaws.com/node-app:latest > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
