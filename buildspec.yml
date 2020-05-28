@@ -5,6 +5,7 @@ phases:
     commands:
       - $(aws ecr get-login --no-include-email --region us-east-1)
       - echo build command starting
+      - echo start the build
   build:
     commands:
       - docker build -t node-app:latest .
@@ -13,7 +14,7 @@ phases:
     commands:
       - docker push 391122274211.dkr.ecr.us-east-1.amazonaws.com/node-app:latest
       - printf '[{"name":helloWorld,"imageUri":"%s"}]'
-      - printf '[{"name":"helloWorld","imageUri":"%s"}]' '391122274211.dkr.ecr.us-east-1.amazonaws.com/node-app:latest' > imagedefinitions.json
+      - printf '[{"name":"myClusterVPCExample","imageUri":"%s"}]' '391122274211.dkr.ecr.us-east-1.amazonaws.com/node-app:latest' > imagedefinitions.json
       - cat imagedefinitions.json 
 artifacts:
   files: imagedefinitions.json
